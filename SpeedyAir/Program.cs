@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SpeedyAir
 {
@@ -17,9 +19,29 @@ namespace SpeedyAir
                 new Flight(6, "YUL", "YVR", 2)
             };
 
-            foreach (var flight in flights)
+            var ordersJSON = File.ReadAllText("..\\..\\..\\coding-assigment-orders.json");
+            var ordersObjs = JsonConvert.DeserializeObject<Dictionary<string, Order>>(ordersJSON);
+            for (int i = 1; i < 100; i++)
             {
-                Console.WriteLine($"Flight: {flight.FlightNumber}, departure: {flight.DepartureCity}, arrival: {flight.ArrivalCity}, day: {flight.Day} ");
+                var order = new Order();
+                var orderNum = "order-" + i.ToString("D3");
+                if(ordersObjs.TryGetValue(orderNum, out order))
+                {
+                    foreach (var flight in flights)
+                    {
+                        if(flight.ArrivalCity == order.Destination && flight.RemainingCapacity > 0)
+                        {
+                            flight.AddOrder(order);
+                            break;
+                        }
+                        Console.WriteLine($"order: {orderNum}, flightNumber: {flight.FlightNumber}, departure: {flight.DepartureCity}, arrival: {flight.ArrivalCity}, day: {flight.Day}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"order: {orderNum}, flightNumber: not scheduled");
+                }
+
             }
         }
     }
