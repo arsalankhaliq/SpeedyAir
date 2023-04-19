@@ -42,10 +42,6 @@ namespace SpeedyAir
                     Console.WriteLine($"order: {orderNum}, flightNumber: not scheduled");
                 }
             }
-            foreach (var flight in flights)
-            {
-                Console.WriteLine(flight.RemainingCapacity);
-            }
         }
     }
 }
