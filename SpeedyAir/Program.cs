@@ -32,16 +32,19 @@ namespace SpeedyAir
                         if(flight.ArrivalCity == order.Destination && flight.RemainingCapacity > 0)
                         {
                             flight.AddOrder(order);
+                            Console.WriteLine($"order: {orderNum}, flightNumber: {flight.FlightNumber}, departure: {flight.DepartureCity}, arrival: {flight.ArrivalCity}, day: {flight.Day}");
                             break;
                         }
-                        Console.WriteLine($"order: {orderNum}, flightNumber: {flight.FlightNumber}, departure: {flight.DepartureCity}, arrival: {flight.ArrivalCity}, day: {flight.Day}");
                     }
                 }
                 else
                 {
                     Console.WriteLine($"order: {orderNum}, flightNumber: not scheduled");
                 }
-
+            }
+            foreach (var flight in flights)
+            {
+                Console.WriteLine(flight.RemainingCapacity);
             }
         }
     }
